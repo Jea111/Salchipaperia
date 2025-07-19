@@ -1,0 +1,51 @@
+🧾 Mis requerimientos como clienta:
+
+1. Página principal (Landing Page)
+Nombre del negocio y eslogan.
+
+Fotos llamativas de los platos (salchipapas, hamburguesas, perros, etc.).
+
+Un fondo colorido, que se vea sabroso, pero que cargue rápido.
+
+Horarios de atención.
+
+Dirección con Google Maps.
+
+Botón de WhatsApp para pedidos rápidos.
+
+2. Menú digital
+Una sección donde se vean todos los productos:
+
+Nombre, descripción (ej. “Salchipapa mixta con chorizo, carne y salsas”), precio.
+
+Imagen de cada producto.
+
+Filtros por categoría: salchipapas, hamburguesas, bebidas, combos.
+
+3. Carrito de compras y pedidos
+Que se puedan agregar productos al carrito.
+
+Formulario para que el cliente escriba sus datos (nombre, dirección, celular).
+
+Botón para confirmar pedido.
+
+Que el pedido se guarde en la base de datos o se mande por WhatsApp (una de las dos mínimo).
+
+4. Panel de administración (privado)
+Login con usuario y contraseña.
+
+Ver pedidos que han llegado.
+
+Agregar, editar o eliminar productos del menú.
+
+5. Responsive (adaptado al celular)
+La mayoría de mis clientes usan celular, así que se debe ver muy bien en pantallas pequeñas.
+
+Todo debe ser fácil de leer y usar con el dedo (botones grandes, navegación clara).
+
+6. Extras (si alcanza el tiempo):
+Galería de fotos del local y los platos.
+
+Comentarios o calificaciones de clientes.
+
+Cupones o promociones (ej. 2x1 los miércoles).

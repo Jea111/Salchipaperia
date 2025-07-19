@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salsas & Papas - El Mejor Sabor de la Ciudad</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        font-family: "Poppins", sans-serif;
+      }
+
+      :root {
+        --primary-color: #ff6b35;
+        --secondary-color: #ffd23f;
+        --dark-color: #2c3e50;
+        --light-color: #ecf0f1;
+      }
+
+      .hero-section {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          #ff8566 100%
+        );
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><rect width="100" height="20" fill="url(%23a)"/></svg>');
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .btn-custom {
+        background: linear-gradient(45deg, var(--secondary-color), #ffdd59);
+        border: none;
+        color: var(--dark-color);
+        font-weight: 600;
+        padding: 12px 30px;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(255, 210, 63, 0.4);
+      }
+
+      .btn-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 210, 63, 0.6);
+        color: var(--dark-color);
+      }
+
+      .section-padding {
+        padding: 80px 0;
+      }
+
+      .menu-card {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative;
+        height: 100%;
+      }
+
+      .menu-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .menu-card img {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .price-tag {
+        background: var(--primary-color);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 10;
+      }
+
+      .stats-section {
+        background: linear-gradient(135deg, var(--dark-color) 0%, #34495e 100%);
+        color: white;
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+      }
+
+      .contact-section {
+        background: var(--light-color);
+      }
+
+      .social-icons a {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        margin: 0 10px;
+        transition: all 0.3s ease;
+      }
+
+      .social-icons a:hover {
+        background: var(--dark-color);
+        transform: scale(1.1);
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+      }
+
+      .navbar-custom {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .food-icon {
+        font-size: 4rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+      }
+
+      .testimonial-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+      }
+
+      .stars {
+        color: var(--secondary-color);
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+      }
+
+      .product-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: var(--secondary-color);
+        color: var(--dark-color);
+        padding: 5px 10px;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .product-description {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 15px;
+      }
+
+      .add-to-cart-btn {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      .add-to-cart-btn:hover {
+        background: var(--dark-color);
+        transform: scale(1.05);
+      }
+
+      .category-filter {
+        margin-bottom: 30px;
+      }
+
+      .category-btn {
+        background: white;
+        color: var(--dark-color);
+        border: 2px solid var(--primary-color);
+        padding: 10px 20px;
+        border-radius: 25px;
+        margin: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .category-btn:hover,
+      .category-btn.active {
+        background: var(--primary-color);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-custom">
+      <div class="container">
+        <a class="navbar-brand" href="#home">
+          <i class="fas fa-utensils text-warning me-2"></i>
+          Salsas & Papas
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#home">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#menu">Menú</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">Nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contacto</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-custom ms-2" href="#order"
+                >Pedir Ahora</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section id="home" class="hero-section d-flex align-items-center">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 hero-content">
+            <h1 class="display-4 fw-bold text-white mb-4">
+              Las Mejores <span class="text-warning">Salchipapas</span> de la
+              Ciudad
+            </h1>
+            <p class="lead text-white mb-5">
+              Descubre el sabor auténtico con nuestras salchipapas artesanales.
+              Ingredientes frescos, salsas caseras y la pasión por la buena
+              comida.
+            </p>
+            <div class="d-flex gap-3 flex-wrap">
+              <a href="#menu" class="btn btn-custom btn-lg">
+                <i class="fas fa-utensils me-2"></i>Ver Menú
+              </a>
+              <a href="#order" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-shopping-cart me-2"></i>Pedir Ahora
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center">
+            <div class="food-icon">
+              <i class="fas fa-hamburger"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center mb-5">
+            <h2 class="display-5 fw-bold text-dark mb-4">Nuestro Menú</h2>
+            <p class="lead text-muted">
+              Disfruta de nuestras especialidades preparadas con ingredientes
+              frescos y amor
+            </p>
+          </div>
+        </div>
+
+        <div class="category-filter text-center">
+          <button class="btn category-btn active" data-category="all">
+            Todos
+          </button>
+          <button class="btn category-btn" data-category="salchipapas">
+            Salchipapas
+          </button>
+          <button class="btn category-btn" data-category="bebidas">
+            Bebidas
+          </button>
+          <button class="btn category-btn" data-category="extras">
+            Extras
+          </button>
+        </div>
+
+        <!-- Products Grid -->
+        {% for p in prod %}
+        <div class="row g-4">
+          <div
+            class="col-lg-4 col-md-6 product-item"
+            data-category="salchipapas"
+          >
+            <div class="card menu-card">
+              <div class="position-relative">
+                <img
+                  src="{{p.imagen}}"
+                  class="card-img-top"
+                  alt="{{p.nombre}}"
+                />
+                <span class="price-tag">${{p.precio}}</span>
+                <span class="product-badge">{{p.disponible}}</span>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title fw-bold">{{p.nombre}}</h5>
+                <p class="product-description">{{p.descripcion}}</p>
+                <button class="btn add-to-cart-btn" onclick="addToCart(1)">
+                  <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section section-padding">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-number">999+</div>
+            <h5>Clientes Satisfechos</h5>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-number">50+</div>
+            <h5>Productos en Menú</h5>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-number">2</div>
+            <h5>Años de Experiencia</h5>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-number">semana 4-12 fin de semana 4-2am</div>
+            <h5>Disponible</h5>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section-padding">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h2 class="display-5 fw-bold mb-4">Sobre Nosotros</h2>
+            <p class="lead mb-4">
+              En Salsas & Papas, nos especializamos en crear las mejores
+              salchipapas de la ciudad. Cada plato es preparado con ingredientes
+              frescos y mucho amor.
+            </p>
+            <div class="row">
+              <div class="col-6">
+                <h4>
+                  <i class="fas fa-check-circle text-success me-2"></i
+                  >Ingredientes Frescos
+                </h4>
+                <p>Solo los mejores ingredientes en cada plato</p>
+              </div>
+              <div class="col-6">
+                <h4>
+                  <i class="fas fa-clock text-primary me-2"></i>Entrega Rápida
+                </h4>
+                <p>Tu pedido listo en menos de 20 minutos</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center">
+            <i class="fas fa-store food-icon"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center mb-5">
+            <h2 class="display-5 fw-bold mb-4">
+              Lo Que Dicen Nuestros Clientes
+            </h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="testimonial-card">
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p>
+                "Las mejores salchipapas que he probado. El sabor es increíble y
+                la atención excelente."
+              </p>
+              <h6 class="fw-bold">- María González</h6>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="testimonial-card">
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p>
+                "Siempre pido aquí, la calidad es consistente y los precios son
+                muy justos."
+              </p>
+              <h6 class="fw-bold">- Carlos Ramírez</h6>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="testimonial-card">
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p>
+                "Excelente servicio y las salsas son deliciosas. Totalmente
+                recomendado."
+              </p>
+              <h6 class="fw-bold">- Ana López</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center mb-5">
+            <h2 class="display-5 fw-bold mb-4">Contáctanos</h2>
+            <p class="lead">
+              ¿Tienes alguna pregunta? ¡Estamos aquí para ayudarte!
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 text-center mb-4">
+            <i class="fas fa-map-marker-alt food-icon"></i>
+            <h5>Dirección</h5>
+            <p>Calle 123 #45-67<br />Medellín, Colombia</p>
+          </div>
+          <div class="col-lg-4 text-center mb-4">
+            <i class="fas fa-phone food-icon"></i>
+            <h5>Teléfono</h5>
+            <p>+57 300 123 4567</p>
+          </div>
+          <div class="col-lg-4 text-center mb-4">
+            <i class="fas fa-envelope food-icon"></i>
+            <h5>Email</h5>
+            <p>salchiPradito@gmail.com</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endfor %}
+    <footer class="bg-dark text-white py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <p>&copy; 2024 Salsas & Papas. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const categoryButtons = document.querySelectorAll(".category-btn");
+        const productItems = document.querySelectorAll(".product-item");
+
+        categoryButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const category = this.getAttribute("data-category");
+
+            categoryButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            productItems.forEach((item) => {
+              if (
+                category === "all" ||
+                item.getAttribute("data-category") === category
+              ) {
+                item.style.display = "block";
+              } else {
+                item.style.display = "none";
+              }
+            });
+          });
+        });
+      });
+
+      function addToCart(productId) {
+        alert(`Producto ${productId} agregado al carrito!`);
+      }
+
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      window.addEventListener("scroll", function () {
+        const navbar = document.querySelector(".navbar");
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+    </script>
+  </body>
+</html>
