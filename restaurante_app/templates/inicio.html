@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -338,34 +339,31 @@
         </div>
 
         <!-- Products Grid -->
-        {% for p in prod %}
-        <div class="row g-4">
-          <div
-            class="col-lg-4 col-md-6 product-item"
-            data-category="salchipapas"
-          >
-            <div class="card menu-card">
-              <div class="position-relative">
-                <img
-                  src="{{p.imagen}}"
-                  class="card-img-top"
-                  alt="{{p.nombre}}"
-                />
-                <span class="price-tag">${{p.precio}}</span>
-                <span class="product-badge">{{p.disponible}}</span>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title fw-bold">{{p.nombre}}</h5>
-                <p class="product-description">{{p.descripcion}}</p>
-                <button class="btn add-to-cart-btn" onclick="addToCart(1)">
-                  <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="row g-4">
+  {% for p in prod %}
+  <div class="col-lg-4 col-md-6 d-flex align-items-stretch product-item" data-category="{{p.categoria}}">
+    <div class="card menu-card w-100">
+      <div class="position-relative">
+        <img
+          src="{{ p.imagen.url }}"
+          class="card-img-top"
+          alt="{{ p.nombre }}"
+        />
+        <span class="price-tag">${{ p.precio }}</span>
+        <span class="product-badge">{{ p.disponible }}</span>
       </div>
-    </section>
+      <div class="card-body">
+        <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
+        <p class="product-description">{{ p.descripcion }}</p>
+        <button class="btn add-to-cart-btn" onclick="addToCart({{ p.id }})">
+          <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
+        </button>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
 
     <section class="stats-section section-padding">
       <div class="container">
@@ -523,7 +521,6 @@
         </div>
       </div>
     </section>
-    {% endfor %}
     <footer class="bg-dark text-white py-4">
       <div class="container">
         <div class="row">

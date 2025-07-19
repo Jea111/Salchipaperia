@@ -124,13 +124,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 import os
-from pathlib import Path
 
 
-MEDIA_URL = '/productos/'
+MEDIA_URL = '/media/'
 
 # Directorio donde se almacenarán los archivos subidos
-MEDIA_ROOT = os.path.join(BASE_DIR, 'productos')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 

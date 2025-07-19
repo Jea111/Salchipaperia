@@ -17,7 +17,7 @@ class Productos(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion= models.TextField()
     precio =models.DecimalField(decimal_places=2,max_digits=10)
-    imagen= models.ImageField(upload_to='productos/')
+    imagen= models.ImageField(upload_to='media/', null=True, blank=True)
     categoria= models.ForeignKey(Categorias,on_delete=models.CASCADE)
     disponible = models.BooleanField(default=True)
     fecha_creado = models.DateTimeField(auto_now_add=True)

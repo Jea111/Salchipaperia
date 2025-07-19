@@ -25,7 +25,7 @@ Filtros por categoría: salchipapas, hamburguesas, bebidas, combos.
 3. Carrito de compras y pedidos
 Que se puedan agregar productos al carrito.
 
-Formulario para que el cliente escriba sus datos (nombre, dirección, celular).
+Formulario para que el cliente escriba sus datos (nombre, dirección).
 
 Botón para confirmar pedido.
 
