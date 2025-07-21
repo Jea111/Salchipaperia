@@ -214,6 +214,36 @@
         transition: all 0.3s ease;
         width: 100%;
       }
+      
+          .carrito-sidebar {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 300px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+      z-index: 1050;
+      transition: right 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carrito-sidebar.open {
+      right: 0;
+    }
+
+    .carrito-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1060;
+      border-radius: 50%;
+      padding: 15px 20px;
+      font-size: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
 
       .add-to-cart-btn:hover {
         background: var(--dark-color);
@@ -536,6 +566,19 @@
       </div>
     </footer>
 
+      <!-- Sidebar del carrito -->
+  <div id="carrito-sidebar" class="carrito-sidebar">
+    <h5 class="text-center py-3 border-bottom">🛒 Tu Carrito</h5>
+    <div id="carrito-lista" class="p-3" style="flex-grow:1; overflow-y:auto;"></div>
+    <div class="text-center p-3 border-top">
+      <button class="btn btn-success w-100" onclick="enviarPedido()">Confirmar Pedido</button>
+    </div>
+  </div>
+
+  <button id="toggle-carrito-btn" class="btn btn-warning carrito-btn" onclick="toggleCarrito()">
+    🛒
+  </button>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -589,6 +632,85 @@
           navbar.classList.remove("scrolled");
         }
       });
+
+      let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  function addToCart(id, nombre, precio) {
+    const index = carrito.findIndex(p => p.id === id);
+    if (index >= 0) {
+      carrito[index].cantidad += 1;
+    } else {
+      carrito.push({ id, nombre, precio, cantidad: 1 });
+    }
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    renderCarrito();
+  }
+
+  function renderCarrito() {
+    const contenedor = document.getElementById("carrito-lista");
+    contenedor.innerHTML = "";
+
+    if (carrito.length === 0) {
+      contenedor.innerHTML = "<p class='text-center'>El carrito está vacío.</p>";
+      return;
+    }
+
+    carrito.forEach(producto => {
+      contenedor.innerHTML += `
+        <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+          <div>
+            <strong>${producto.nombre}</strong> x ${producto.cantidad}
+          </div>
+          <div>$${producto.precio * producto.cantidad}</div>
+          <button class='btn add-to-cart-btn'>eliminar</button>
+        </div>
+      `;
+    });
+  }
+
+  function toggleCarrito() {
+    const sidebar = document.getElementById("carrito-sidebar");
+    sidebar.classList.toggle("open");
+  }
+
+  function enviarPedido() {
+    if (carrito.length === 0) {
+      alert("El carrito está vacío.");
+      return;
+    }
+
+    fetch('/procesar-pedido/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCSRFToken()
+      },
+      body: JSON.stringify({ carrito })
+    })
+      .then(res => res.json())
+      .then(data => {
+        alert("Pedido enviado correctamente.");
+        carrito = [];
+        localStorage.removeItem("carrito");
+        renderCarrito();
+        toggleCarrito();
+      })
+      .catch(err => console.error("Error:", err));
+  }
+
+  function getCSRFToken() {
+    const name = 'csrftoken';
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      if (cookie.trim().startsWith(name + '=')) {
+        return decodeURIComponent(cookie.trim().substring(name.length + 1));
+      }
+    }
+    return '';
+  }
+
+  document.addEventListener("DOMContentLoaded", renderCarrito);
+
     </script>
   </body>
 </html>
