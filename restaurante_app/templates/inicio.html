@@ -327,42 +327,47 @@
           <button class="btn category-btn active" data-category="all">
             Todos
           </button>
-          <button class="btn category-btn" data-category="salchipapas">
-            Salchipapas
+          <button class="btn category-btn" data-category="comidas rapidas">
+            comidas rapidas
           </button>
-          <button class="btn category-btn" data-category="bebidas">
-            Bebidas
+          <button class="btn category-btn" data-category="saludables">
+            saludables
           </button>
-          <button class="btn category-btn" data-category="extras">
-            Extras
+          <button class="btn category-btn" data-category="postres">
+            postres
           </button>
         </div>
 
         <!-- Products Grid -->
+{% load static %}
+
   <div class="row g-4">
-  {% for p in prod %}
-  <div class="col-lg-4 col-md-6 d-flex align-items-stretch product-item" data-category="{{p.categoria}}">
-    <div class="card menu-card w-100">
-      <div class="position-relative">
-        <img
-          src="{{ p.imagen.url }}"
-          class="card-img-top"
-          alt="{{ p.nombre }}"
-        />
-        <span class="price-tag">${{ p.precio }}</span>
-        <span class="product-badge">{{ p.disponible }}</span>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
-        <p class="product-description">{{ p.descripcion }}</p>
-        <button class="btn add-to-cart-btn" onclick="addToCart({{ p.id }})">
-          <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
-        </button>
+    {% for p in prod %}
+    <div class="col-lg-4 col-md-6 d-flex align-items-stretch product-item" data-category="{{ p.categoria }}">
+      <div class="card menu-card w-100">
+        <div class="position-relative">
+          {% if p.imagen %}
+            <img src="{{ p.imagen.url }}" class="card-img-top" alt="{{ p.nombre }}">
+          {% else %}
+            <img src="{% static 'img/no-image.jpg' %}" class="card-img-top" alt="Sin imagen">
+          {% endif %}
+          <span class="price-tag">${{ p.precio }}</span>
+          <span class="product-badge">
+            {{ p.disponible|yesno:"Disponible,No disponible" }}
+          </span>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
+          <p class="product-description">{{ p.descripcion }}</p>
+          <button class="btn add-to-cart-btn" onclick="addToCart({{ p.id }})">
+            <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
+          </button>
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
+
 
 
     <section class="stats-section section-padding">
