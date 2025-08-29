@@ -1,4 +1,4 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -17,259 +17,8 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <style>
-      * {
-        font-family: "Poppins", sans-serif;
-      }
-
-      :root {
-        --primary-color: #ff6b35;
-        --secondary-color: #ffd23f;
-        --dark-color: #2c3e50;
-        --light-color: #ecf0f1;
-      }
-
-      .hero-section {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color) 0%,
-          #ff8566 100%
-        );
-        min-height: 100vh;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero-section::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><rect width="100" height="20" fill="url(%23a)"/></svg>');
-        animation: float 6s ease-in-out infinite;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-
-      .hero-content {
-        position: relative;
-        z-index: 2;
-      }
-
-      .btn-custom {
-        background: linear-gradient(45deg, var(--secondary-color), #ffdd59);
-        border: none;
-        color: var(--dark-color);
-        font-weight: 600;
-        padding: 12px 30px;
-        border-radius: 50px;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(255, 210, 63, 0.4);
-      }
-
-      .btn-custom:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(255, 210, 63, 0.6);
-        color: var(--dark-color);
-      }
-
-      .section-padding {
-        padding: 80px 0;
-      }
-
-      .menu-card {
-        border: none;
-        border-radius: 20px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        position: relative;
-        height: 100%;
-      }
-
-      .menu-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      }
-
-      .menu-card img {
-        height: 200px;
-        object-fit: cover;
-        width: 100%;
-      }
-
-      .price-tag {
-        background: var(--primary-color);
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-weight: 600;
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        z-index: 10;
-      }
-
-      .stats-section {
-        background: linear-gradient(135deg, var(--dark-color) 0%, #34495e 100%);
-        color: white;
-      }
-
-      .stat-number {
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--secondary-color);
-      }
-
-      .contact-section {
-        background: var(--light-color);
-      }
-
-      .social-icons a {
-        display: inline-block;
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        text-align: center;
-        background: var(--primary-color);
-        color: white;
-        border-radius: 50%;
-        margin: 0 10px;
-        transition: all 0.3s ease;
-      }
-
-      .social-icons a:hover {
-        background: var(--dark-color);
-        transform: scale(1.1);
-      }
-
-      .navbar-brand {
-        font-weight: 700;
-        font-size: 1.5rem;
-      }
-
-      .navbar-custom {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      .food-icon {
-        font-size: 4rem;
-        color: var(--primary-color);
-        margin-bottom: 20px;
-      }
-
-      .testimonial-card {
-        background: white;
-        border-radius: 15px;
-        padding: 30px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        margin: 20px 0;
-      }
-
-      .stars {
-        color: var(--secondary-color);
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-      }
-
-      .product-badge {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: var(--secondary-color);
-        color: var(--dark-color);
-        padding: 5px 10px;
-        border-radius: 10px;
-        font-size: 0.8rem;
-        font-weight: 600;
-      }
-
-      .product-description {
-        font-size: 0.9rem;
-        color: #666;
-        margin-bottom: 15px;
-      }
-
-      .add-to-cart-btn {
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        width: 100%;
-      }
-      
-          .carrito-sidebar {
-      position: fixed;
-      top: 0;
-      right: -320px;
-      width: 300px;
-      height: 100%;
-      background-color: #fff;
-      box-shadow: -2px 0 5px rgba(0,0,0,0.2);
-      z-index: 1050;
-      transition: right 0.3s ease-in-out;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .carrito-sidebar.open {
-      right: 0;
-    }
-
-    .carrito-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1060;
-      border-radius: 50%;
-      padding: 15px 20px;
-      font-size: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
-
-
-      .add-to-cart-btn:hover {
-        background: var(--dark-color);
-        transform: scale(1.05);
-      }
-
-      .category-filter {
-        margin-bottom: 30px;
-      }
-
-      .category-btn {
-        background: white;
-        color: var(--dark-color);
-        border: 2px solid var(--primary-color);
-        padding: 10px 20px;
-        border-radius: 25px;
-        margin: 5px;
-        transition: all 0.3s ease;
-      }
-
-      .category-btn:hover,
-      .category-btn.active {
-        background: var(--primary-color);
-        color: white;
-      }
-    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-custom">
@@ -368,8 +117,6 @@
           </button>
         </div>
 
-        <!-- Products Grid -->
-{% load static %}
 
   <div class="row g-4">
     {% for p in prod %}
@@ -389,7 +136,7 @@
         <div class="card-body">
           <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
           <p class="product-description">{{ p.descripcion }}</p>
-          <button class="btn add-to-cart-btn" onclick="addToCart({{ p.id }})">
+          <button class="btn add-to-cart-btn" onclick="addToCart('{{ p.id }}','{{p.nombre}}','{{p.precio}}')">
             <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
           </button>
         </div>
@@ -566,7 +313,6 @@
       </div>
     </footer>
 
-      <!-- Sidebar del carrito -->
   <div id="carrito-sidebar" class="carrito-sidebar">
     <h5 class="text-center py-3 border-bottom">🛒 Tu Carrito</h5>
     <div id="carrito-lista" class="p-3" style="flex-grow:1; overflow-y:auto;"></div>
@@ -581,135 +327,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const categoryButtons = document.querySelectorAll(".category-btn");
-        const productItems = document.querySelectorAll(".product-item");
-
-        categoryButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            const category = this.getAttribute("data-category");
-
-            categoryButtons.forEach((btn) => btn.classList.remove("active"));
-            this.classList.add("active");
-
-            productItems.forEach((item) => {
-              if (
-                category === "all" ||
-                item.getAttribute("data-category") === category
-              ) {
-                item.style.display = "block";
-              } else {
-                item.style.display = "none";
-              }
-            });
-          });
-        });
-      });
-
-      function addToCart(productId) {
-        alert(`Producto ${productId} agregado al carrito!`);
-      }
-
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
-        });
-      });
-
-      window.addEventListener("scroll", function () {
-        const navbar = document.querySelector(".navbar");
-        if (window.scrollY > 50) {
-          navbar.classList.add("scrolled");
-        } else {
-          navbar.classList.remove("scrolled");
-        }
-      });
-
-      let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-  function addToCart(id, nombre, precio) {
-    const index = carrito.findIndex(p => p.id === id);
-    if (index >= 0) {
-      carrito[index].cantidad += 1;
-    } else {
-      carrito.push({ id, nombre, precio, cantidad: 1 });
-    }
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-    renderCarrito();
-  }
-
-  function renderCarrito() {
-    const contenedor = document.getElementById("carrito-lista");
-    contenedor.innerHTML = "";
-
-    if (carrito.length === 0) {
-      contenedor.innerHTML = "<p class='text-center'>El carrito está vacío.</p>";
-      return;
-    }
-
-    carrito.forEach(producto => {
-      contenedor.innerHTML += `
-        <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
-          <div>
-            <strong>${producto.nombre}</strong> x ${producto.cantidad}
-          </div>
-          <div>$${producto.precio * producto.cantidad}</div>
-          <button class='btn add-to-cart-btn'>eliminar</button>
-        </div>
-      `;
-    });
-  }
-
-  function toggleCarrito() {
-    const sidebar = document.getElementById("carrito-sidebar");
-    sidebar.classList.toggle("open");
-  }
-
-  function enviarPedido() {
-    if (carrito.length === 0) {
-      alert("El carrito está vacío.");
-      return;
-    }
-
-    fetch('/procesar-pedido/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': getCSRFToken()
-      },
-      body: JSON.stringify({ carrito })
-    })
-      .then(res => res.json())
-      .then(data => {
-        alert("Pedido enviado correctamente.");
-        carrito = [];
-        localStorage.removeItem("carrito");
-        renderCarrito();
-        toggleCarrito();
-      })
-      .catch(err => console.error("Error:", err));
-  }
-
-  function getCSRFToken() {
-    const name = 'csrftoken';
-    const cookies = document.cookie.split(';');
-    for (let cookie of cookies) {
-      if (cookie.trim().startsWith(name + '=')) {
-        return decodeURIComponent(cookie.trim().substring(name.length + 1));
-      }
-    }
-    return '';
-  }
-
-  document.addEventListener("DOMContentLoaded", renderCarrito);
+    <script src="{% static 'js/script.js' %}">
 
     </script>
   </body>
