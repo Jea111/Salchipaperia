@@ -136,7 +136,7 @@
         <div class="card-body">
           <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
           <p class="product-description">{{ p.descripcion }}</p>
-          <button class="btn add-to-cart-btn" onclick="addToCart('{{ p.id }}','{{p.nombre}}','{{p.precio}}')">
+          <button class="btn add-to-cart-btn" onclick=enviarPedido()>
             <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
           </button>
         </div>
@@ -317,7 +317,7 @@
     <h5 class="text-center py-3 border-bottom">🛒 Tu Carrito</h5>
     <div id="carrito-lista" class="p-3" style="flex-grow:1; overflow-y:auto;"></div>
     <div class="text-center p-3 border-top">
-      <button class="btn btn-success w-100" onclick="enviarPedido()">Confirmar Pedido</button>
+      <button class="btn btn-success w-100" onclick="confirmarPedido()">Confirmar Pedido</button>
     </div>
   </div>
 

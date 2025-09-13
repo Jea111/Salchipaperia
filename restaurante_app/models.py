@@ -35,7 +35,7 @@ class Usuarios(models.Model):
     
     nombre = models.CharField(max_length=200)
     direccion = models.CharField(max_length=200)
-    metodo_pago=models.CharField(max_length=200, choices=[("efectivo", "Efectivo"), ("nequi", "Nequi"), ("daviplata", "Daviplata")])
+    metodo_pago=models.CharField(max_length=200, choices=[("efectivo", "Efectivo"), ("nequi", "Nequi"), ("Bancolombia", "Bancolombia")])
         
     def __str__(self):
         return f'Usuario: {self.nombre} - Direccion {self.direccion} - Metodo de pago {self.metodo_pago}'
