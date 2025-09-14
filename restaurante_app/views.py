@@ -11,10 +11,19 @@ def users(request):
         nombre = request.POST['nombre']
         direccion = request.POST['direccion']
         metodo_pago = request.POST['metodo_pago']
+
+        userExist = Usuarios.objects.filter(nombre=nombre).exists()
         
-        Usuarios.objects.create(nombre=nombre, direccion=direccion, metodo_pago=metodo_pago)
-        return redirect('inicio')
-    
+        if userExist:
+            return JsonResponse({'mensaje': 'El usuario ya existe'}, status=400)
+        else:
+            Usuarios.objects.create(
+                nombre=nombre, 
+                direccion=direccion, 
+                metodo_pago=metodo_pago
+            )
+            return redirect('inicio')
+
     return render(request, 'login.html', {
         'productos': productos
     })
@@ -24,30 +33,3 @@ def inicio(request):
     return render(request, 'inicio.html', {
         'prod': prods
     })
-
-@csrf_exempt
-def procesar_pedido(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            carrito = data.get('carrito', [])
-
-            if not carrito:
-                return JsonResponse({'error': 'Carrito vacío'}, status=400)
-
-            for item in carrito:
-                producto_id = item['id']
-                cantidad = item['cantidad']
-                
-                try:
-                    producto = Productos.objects.get(id=producto_id)
-                    print(f"Pedido recibido: {producto.nombre} x {item.cantidad}")
-                except Productos.DoesNotExist:
-                    return JsonResponse({'error': f'Producto ID {producto_id} no existe'}, status=404)
-
-            return JsonResponse({'mensaje': 'Pedido procesado correctamente'})
-
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'JSON inválido'}, status=400)
-
-    return JsonResponse({'error': 'Método no permitido'}, status=405)
