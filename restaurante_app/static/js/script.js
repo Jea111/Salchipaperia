@@ -1,4 +1,3 @@
-alert("si esta enlazado");
 let carrito = [];
 let carritoAbierto = false;
 
@@ -127,9 +126,15 @@ const actualizarContadorCarrito = () => {
 
 const confirmarPedido = () => {
   if (carrito.length === 0) {
-    alert(
-      "Tu carrito está vacío. Agrega productos antes de confirmar el pedido."
-    );
+    Toastify({
+      text: "Tu carrito está vacío",
+      duration: 5000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      backgroundColor: "linear-gradient(to right, #f73100ff, #fd7403ff)",
+    }).showToast();
+
     return;
   }
 
@@ -150,9 +155,14 @@ const confirmarPedido = () => {
   mensaje += "¿Confirmas tu pedido?";
 
   if (confirm(mensaje)) {
-    alert(
-      "¡Pedido confirmado! Te contactaremos pronto para coordinar la entrega."
-    );
+    Toastify({
+      text: "Pedido confirmado\nNos estaremos comunicando contigo",
+      duration: 5000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      backgroundColor: "linear-gradient(to right, #f73100ff, #fd7403ff)",
+    }).showToast();
 
     carrito = [];
     actualizarCarrito();
