@@ -158,13 +158,14 @@ const confirmarPedido = () => {
     Toastify({
       text: "Pedido confirmado\nNos estaremos comunicando contigo",
       duration: 5000,
-      close: true,
+      close: false,
       gravity: "top",
-      position: "right",
+      position: "rigth",
       backgroundColor: "linear-gradient(to right, #f73100ff, #fd7403ff)",
     }).showToast();
 
     carrito = [];
+    actualizarContadorCarrito();
     actualizarCarrito();
     toggleCarrito();
   }

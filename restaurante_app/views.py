@@ -5,6 +5,7 @@ from .models import Usuarios, Productos
 import json
 
 def users(request):
+    """La validación es solo practica,pq un cliente puede tener varios pedidos"""
     productos = Productos.objects.all()
     
     if request.method == 'POST':
