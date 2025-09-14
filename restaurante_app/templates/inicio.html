@@ -17,6 +17,8 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
   </head>
@@ -135,10 +137,10 @@
         </div>
         <div class="card-body">
           <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
-          <p class="product-description">{{ p.descripcion }}</p>
-          <button class="btn add-to-cart-btn" onclick=enviarPedido()>
-            <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
-          </button>
+          <p class="card-description">{{ p.descripcion }}</p>
+          <p class="card-price visually-hidden">{{ p.precio }}</p>
+          <button class="btn add-to-cart-btn" onclick="enviarPedido(event)"><i class="fas fa-cart-plus me-2">Agregar al Carrito</i></button>>
+            
         </div>
       </div>
     </div>
@@ -325,7 +327,6 @@
     🛒
   </button>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
     <script src="{% static 'js/script.js' %}">
 
