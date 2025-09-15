@@ -130,8 +130,8 @@ const confirmarPedido = () => {
       text: "Tu carrito está vacío",
       duration: 5000,
       close: true,
-      gravity: "top",
-      position: "right",
+      gravity: "bottom",
+      position: "left",
       backgroundColor: "linear-gradient(to right, #f73100ff, #fd7403ff)",
     }).showToast();
 
