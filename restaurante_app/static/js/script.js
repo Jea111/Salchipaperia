@@ -159,8 +159,8 @@ const confirmarPedido = () => {
       text: "Pedido confirmado\nNos estaremos comunicando contigo",
       duration: 5000,
       close: false,
-      gravity: "top",
-      position: "rigth",
+      gravity: "bottom",
+      position: "left",
       backgroundColor: "linear-gradient(to right, #f73100ff, #fd7403ff)",
     }).showToast();
 
