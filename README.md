@@ -15,9 +15,6 @@ Proyecto Django sencillo que maneja categorías y productos, permite registrar c
 
 1. Sitúate en la carpeta del proyecto:
 
-```powershell
-cd C:\Users\TALIANA\Desktop\landingRestaurante_django1
-```
 
 2. Crear y activar un entorno virtual:
 
