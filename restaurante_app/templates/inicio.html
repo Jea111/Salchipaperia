@@ -18,11 +18,17 @@
       rel="stylesheet"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>   
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"
+    ></script>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-custom">
@@ -65,24 +71,63 @@
 
     <section id="home" class="hero-section d-flex align-items-center">
       <div class="container">
+        <div
+          id="carouselExampleControlsNoTouching"
+          class="carousel slide"
+          data-bs-touch="false"
+        >
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <h1 class="display-4 fw-bold text-white mb-4">
+                Las Mejores <span class="text-warning">Salchipapas</span> de
+                Medellín
+              </h1>
+              <p class="lead text-white mb-5">
+                Descubre el sabor auténtico con nuestras salchipapas
+                artesanales. Ingredientes frescos, salsas caseras y la pasión
+                por la buena comida.
+              </p>
+              <div class="d-flex gap-3 flex-wrap">
+                <a href="#menu" class="btn btn-custom btn-lg">
+                  <i class="fas fa-utensils me-2"></i>Ver Menú
+                </a>
+                <a href="#order" class="btn btn-outline-light btn-lg">
+                  <i class="fas fa-shopping-cart me-2"></i>Pedir Ahora
+                </a>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <img
+                src="/media/media/burger-3carnes.webp"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleControlsNoTouching"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleControlsNoTouching"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+        <!-- 
         <div class="row align-items-center">
           <div class="col-lg-6 hero-content">
-            <h1 class="display-4 fw-bold text-white mb-4">
-              Las Mejores <span class="text-warning">Salchipapas</span> de Medellín
-            </h1>
-            <p class="lead text-white mb-5">
-              Descubre el sabor auténtico con nuestras salchipapas artesanales.
-              Ingredientes frescos, salsas caseras y la pasión por la buena
-              comida.
-            </p>
-            <div class="d-flex gap-3 flex-wrap">
-              <a href="#menu" class="btn btn-custom btn-lg">
-                <i class="fas fa-utensils me-2"></i>Ver Menú
-              </a>
-              <a href="#order" class="btn btn-outline-light btn-lg">
-                <i class="fas fa-shopping-cart me-2"></i>Pedir Ahora
-              </a>
-            </div>
           </div>
           <div class="col-lg-6 text-center">
             <div class="food-icon">
@@ -90,6 +135,7 @@
             </div>
           </div>
         </div>
+        -->
       </div>
     </section>
 
@@ -105,7 +151,7 @@
           </div>
         </div>
 
-        <div class="category-filter text-center">
+        <div class="category-filter text-center mb-4">
           <button class="btn category-btn active" data-category="all">
             Todos
           </button>
@@ -120,35 +166,51 @@
           </button>
         </div>
 
-
-  <div class="row g-4">
-    {% for p in prod %}
-    <div class="col-lg-4 col-md-6 d-flex align-items-stretch product-item" data-category="{{ p.categoria }}">
-      <div class="card menu-card w-100">
-        <div class="position-relative">
-          {% if p.imagen %}
-            <img src="{{ p.imagen.url }}" class="card-img-top" alt="{{ p.nombre }}">
-          {% else %}
-            <img src="{% static 'img/no-image.jpg' %}" class="card-img-top" alt="Sin imagen">
-          {% endif %}
-          <span class="price-tag">${{ p.precio }}</span>
-          <span class="product-badge">
-            {{ p.disponible|yesno:"Disponible,No disponible" }}
-          </span>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
-          <p class="card-description">{{ p.descripcion }}</p>
-          <p class="card-price visually-hidden">{{ p.precio }}</p>
-          <button class="btn add-to-cart-btn" onclick="enviarPedido(event)"><i class="fas fa-cart-plus me-2">Agregar al Carrito</i></button>
-            
+        <div class="row g-4">
+          {% for p in prod %}
+          <div
+            class="col-lg-4 col-md-6 d-flex align-items-stretch product-item"
+            data-category="{{ p.categoria }}"
+          >
+            <div class="card menu-card w-100">
+              <div class="position-relative">
+                {% if p.imagen %}
+                <img
+                  src="{{ p.imagen.url }}"
+                  class="card-img-top"
+                  alt="{{ p.nombre }}"
+                />
+                {% else %}
+                <img
+                  src="{% static 'img/no-image.jpg' %}"
+                  class="card-img-top"
+                  alt="Sin imagen"
+                />
+                {% endif %}
+                <span class="price-tag badge rounded-pill"
+                  >${{ p.precio }}</span
+                >
+                <span class="product-badge rounded-pill">
+                  {{ p.disponible|yesno:"Disponible,No disponible" }}
+                </span>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
+                <p class="card-description">{{ p.descripcion }}</p>
+                <p class="card-price visually-hidden">{{ p.precio }}</p>
+                <button
+                  class="btn add-to-cart-btn"
+                  onclick="enviarPedido(event)"
+                >
+                  <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
+                </button>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
         </div>
       </div>
-    </div>
-    {% endfor %}
-  </div>
-
-
+    </section>
 
     <section class="stats-section section-padding">
       <div class="container">
@@ -306,6 +368,7 @@
         </div>
       </div>
     </section>
+
     <footer class="bg-dark text-white py-4">
       <div class="container">
         <div class="row">
@@ -316,21 +379,28 @@
       </div>
     </footer>
 
-  <div id="carrito-sidebar" class="carrito-sidebar">
-    <h5 class="text-center py-3 border-bottom">🛒 Tu Carrito</h5>
-    <div id="carrito-lista" class="p-3" style="flex-grow:1; overflow-y:auto;"></div>
-    <div class="text-center p-3 border-top">
-      <button class="btn btn-success w-100" onclick="confirmarPedido()">Confirmar Pedido</button>
+    <div id="carrito-sidebar" class="carrito-sidebar">
+      <h5 class="text-center py-3 border-bottom">🛒 Tu Carrito</h5>
+      <div
+        id="carrito-lista"
+        class="p-3"
+        style="flex-grow: 1; overflow-y: auto"
+      ></div>
+      <div class="text-center p-3 border-top">
+        <button class="btn btn-success w-100" onclick="confirmarPedido()">
+          Confirmar Pedido
+        </button>
+      </div>
     </div>
-  </div>
 
-  <button id="toggle-carrito-btn" class="btn btn-warning carrito-btn" onclick="toggleCarrito()">
-    🛒
-  </button>
+    <button
+      id="toggle-carrito-btn"
+      class="btn btn-warning carrito-btn"
+      onclick="toggleCarrito()"
+    >
+      <span class="badge rounded-pill bg-danger"> 🛒</span>
+    </button>
 
-
-    <script src="{% static 'js/script.js' %}">
-
-    </script>
+    <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>

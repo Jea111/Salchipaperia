@@ -1,11 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import Usuarios, Productos
+from .models import Usuarios, Productos, Pedidos,Categorias
 import json
 
 def users(request):
-    """La validación es solo practica,pq un cliente puede tener varios pedidos"""
+    """La validación es solo practica,pq un cliente puede tener varios pedidos y deberiamos requerir que la zona sea solo en itagui y prado"""
     productos = Productos.objects.all()
     
     if request.method == 'POST':
@@ -34,3 +33,28 @@ def inicio(request):
     return render(request, 'inicio.html', {
         'prod': prods
     })
+
+
+
+
+# def descuont(request):
+#     newDescuento = 10 * 100 / 100
+    
+#     return render (request,'inicio.html',{'descuento': newDescuento})
+        
+        
+
+# def pedidosRealizados(request):
+#     if request.method == 'POST':
+#         usuario_id = request.POST.get('user_id')
+#         productos_ids = request.POST.getlist('producto_id')  # lista de IDs
+
+#         usuario = get_object_or_404(Usuarios, id=usuario_id)
+
+#         for pid in productos_ids:
+#             producto = get_object_or_404(Productos, id=pid)
+#             Pedidos.objects.create(user=usuario, produ=producto)
+
+#         return JsonResponse({'mensaje': 'Pedido confirmado'})
+    
+#     return JsonResponse({'error': 'Método no permitido'}, status=405)

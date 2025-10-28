@@ -20,6 +20,7 @@ class Productos(models.Model):
     imagen= models.ImageField(upload_to='media/', null=True, blank=True)
     categoria= models.ForeignKey(Categorias,on_delete=models.CASCADE)
     disponible = models.BooleanField(default=True)
+    # descuento = models.ForeignKey(Categorias, on_delete=models.CASCADE)
     fecha_creado = models.DateTimeField(auto_now_add=True)
     
     
