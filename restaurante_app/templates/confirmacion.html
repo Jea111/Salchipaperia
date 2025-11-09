@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pedido confirmado</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-light min-vh-100">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-4">
+              <div class="text-center mb-4">
+                <i
+                  class="fas fa-check-circle text-success"
+                  style="font-size: 4rem"
+                ></i>
+                <h1 class="h3 mt-3 mb-3">¡Pedido confirmado!</h1>
+                <p class="text-muted">
+                  Gracias {{ usuario.nombre }}. Tu pedido se ha registrado
+                  correctamente.
+                </p>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header bg-light">
+                  <h5 class="mb-0">Resumen del pedido</h5>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <strong>Cliente:</strong> {{ usuario.nombre }}<br />
+                    <strong>Teléfono:</strong> {{ usuario.telefono }}<br />
+                    <strong>Dirección:</strong> {{ usuario.direccion }}<br />
+                    <strong>Método de pago:</strong> {{ usuario.metodo_pago }}
+                  </div>
+
+                  <h6 class="mb-3">Productos:</h6>
+                  {% for pedido in pedidos %}
+                  <div class="d-flex justify-content-between mb-2">
+                    <span
+                      >{{ pedido.prodc.nombre }} × {{ pedido.cantidad }}</span
+                    >
+                    <span>${{ pedido.total }}</span>
+                  </div>
+                  {% endfor %}
+
+                  <hr />
+                  <div class="d-flex justify-content-between">
+                    <strong>Total:</strong>
+                    <strong>${{ total }}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-grid gap-2">
+                <a
+                  href="{{ whatsapp_url }}"
+                  target="_blank"
+                  class="btn btn-success btn-lg"
+                >
+                  <i class="fab fa-whatsapp me-2"></i>
+                  Enviar por WhatsApp
+                </a>
+                <a href="/" class="btn btn-outline-secondary">
+                  <i class="fas fa-home me-2"></i>
+                  Volver al inicio
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      setTimeout(function () {
+        document.querySelector('a[href^="https://wa.me"]').click();
+      }, 1000);
+    </script>
+  </body>
+</html>

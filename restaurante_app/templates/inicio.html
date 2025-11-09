@@ -72,57 +72,107 @@
     <section id="home" class="hero-section d-flex align-items-center">
       <div class="container">
         <div
-          id="carouselExampleControlsNoTouching"
-          class="carousel slide"
-          data-bs-touch="false"
+          id="carouselHero"
+          class="carousel slide carousel-fade"
+          data-bs-ride="carousel"
         >
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <h1 class="display-4 fw-bold text-white mb-4">
-                Las Mejores <span class="text-warning">Salchipapas</span> de
-                Medellín
-              </h1>
-              <p class="lead text-white mb-5">
-                Descubre el sabor auténtico con nuestras salchipapas
-                artesanales. Ingredientes frescos, salsas caseras y la pasión
-                por la buena comida.
-              </p>
-              <div class="d-flex gap-3 flex-wrap">
-                <a href="#menu" class="btn btn-custom btn-lg">
-                  <i class="fas fa-utensils me-2"></i>Ver Menú
-                </a>
-                <a href="#order" class="btn btn-outline-light btn-lg">
-                  <i class="fas fa-shopping-cart me-2"></i>Pedir Ahora
-                </a>
+              <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                  <h1 class="display-4 fw-bold text-white mb-4">
+                    Las Mejores <span class="text-warning">Salchipapas</span> de
+                    Medellín
+                  </h1>
+                  <p class="lead text-white mb-5">
+                    Descubre el sabor auténtico con nuestras salchipapas
+                    artesanales. Ingredientes frescos, salsas caseras y la
+                    pasión por la buena comida.
+                  </p>
+                  <div class="d-flex gap-3 flex-wrap">
+                    <a href="#menu" class="btn btn-custom btn-lg">
+                      <i class="fas fa-utensils me-2"></i>Ver Menú
+                    </a>
+                    <a href="#order" class="btn btn-outline-light btn-lg">
+                      <i class="fas fa-shopping-cart me-2"></i>Pedir Ahora
+                    </a>
+                  </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                  <div class="text-center">
+                    <i
+                      class="fas fa-utensils text-warning"
+                      style="font-size: 8rem; opacity: 0.8"
+                    ></i>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="carousel-item">
-              <img
-                src="/media/media/burger-3carnes.webp"
-                class="d-block w-100"
-                alt="..."
-              />
+              <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                  <h1 class="display-4 fw-bold text-white mb-4">
+                    Hamburguesas <span class="text-warning">Gourmet</span>
+                  </h1>
+                  <p class="lead text-white mb-5">
+                    Prueba nuestras deliciosas hamburguesas preparadas con
+                    ingredientes seleccionados y carne 100% natural.
+                  </p>
+                  <div class="d-flex gap-3 flex-wrap">
+                    <a href="#menu" class="btn btn-custom btn-lg">
+                      <i class="fas fa-hamburger me-2"></i>Ver Menú
+                    </a>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div
+                    class="position-relative h-100 d-flex align-items-center justify-content-center"
+                  >
+                    <img
+                      src="/media/media/burger-3carnes.webp"
+                      class="img-fluid rounded-4 shadow-lg"
+                      alt="Hamburguesa Gourmet"
+                      style="max-height: 400px; object-fit: cover"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+
           <button
             class="carousel-control-prev"
             type="button"
-            data-bs-target="#carouselExampleControlsNoTouching"
+            data-bs-target="#carouselHero"
             data-bs-slide="prev"
           >
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
+            <span class="visually-hidden">Anterior</span>
           </button>
           <button
             class="carousel-control-next"
             type="button"
-            data-bs-target="#carouselExampleControlsNoTouching"
+            data-bs-target="#carouselHero"
             data-bs-slide="next"
           >
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
+            <span class="visually-hidden">Siguiente</span>
           </button>
+
+          <div class="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#carouselHero"
+              data-bs-slide-to="0"
+              class="active"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselHero"
+              data-bs-slide-to="1"
+            ></button>
+          </div>
         </div>
 
         <!-- 
@@ -151,28 +201,13 @@
           </div>
         </div>
 
-        <div class="category-filter text-center mb-4">
-          <button class="btn category-btn active" data-category="all">
-            Todos
-          </button>
-          <button class="btn category-btn" data-category="comidas rapidas">
-            comidas rapidas
-          </button>
-          <button class="btn category-btn" data-category="saludables">
-            saludables
-          </button>
-          <button class="btn category-btn" data-category="postres">
-            postres
-          </button>
-        </div>
-
         <div class="row g-4">
           {% for p in prod %}
           <div
             class="col-lg-4 col-md-6 d-flex align-items-stretch product-item"
             data-category="{{ p.categoria }}"
           >
-            <div class="card menu-card w-100">
+            <div class="card menu-card w-100" data-producto-id="{{ p.id }}">
               <div class="position-relative">
                 {% if p.imagen %}
                 <img
@@ -190,7 +225,9 @@
                 <span class="price-tag badge rounded-pill"
                   >${{ p.precio }}</span
                 >
-                <span class="product-badge rounded-pill">
+                <span
+                  class="product-badge rounded-pill {% if not p.disponible %}bg-danger{% endif %}"
+                >
                   {{ p.disponible|yesno:"Disponible,No disponible" }}
                 </span>
               </div>
@@ -201,6 +238,13 @@
                 <button
                   class="btn add-to-cart-btn"
                   onclick="enviarPedido(event)"
+                  {%
+                  if
+                  not
+                  p.disponible
+                  %}disabled{%
+                  endif
+                  %}
                 >
                   <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
                 </button>
@@ -380,25 +424,35 @@
     </footer>
 
     <div id="carrito-sidebar" class="carrito-sidebar">
-      <h5 class="text-center py-3 border-bottom">🛒 Tu Carrito</h5>
+      <div
+        class="d-flex justify-content-between align-items-center p-3 border-bottom"
+      >
+        <h5 class="mb-0">🛒 Tu Carrito</h5>
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          onclick="toggleCarrito()"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
       <div
         id="carrito-lista"
         class="p-3"
         style="flex-grow: 1; overflow-y: auto"
       ></div>
-      <div class="text-center p-3 border-top">
-        <button class="btn btn-success w-100" onclick="confirmarPedido()">
-          Confirmar Pedido
+      <div class="p-3 border-top bg-light">
+        <button class="btn btn-success w-100 mb-2" onclick="confirmarPedido()">
+          <i class="fas fa-check me-2"></i>Confirmar Pedido
         </button>
       </div>
     </div>
 
     <button
       id="toggle-carrito-btn"
-      class="btn btn-warning carrito-btn"
+      class="btn btn-warning carrito-btn shadow"
       onclick="toggleCarrito()"
     >
-      <span class="badge rounded-pill bg-danger"> 🛒</span>
+      <span class="badge rounded-pill bg-danger">🛒</span>
     </button>
 
     <script src="{% static 'js/script.js' %}"></script>
