@@ -18,7 +18,7 @@ function enviarPedido(event) {
   const card = event.target.closest(".card");
   const nombre = card.querySelector(".card-title").textContent;
   const precio = parseFloat(card.querySelector(".card-price").textContent);
-  const id = card.dataset.productoId; // Necesitamos agregar este atributo al HTML
+  const id = card.dataset.productoId;
 
   const producto = {
     id: parseInt(id),

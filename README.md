@@ -4,12 +4,12 @@ Aplicación web de ejemplo (Django) para un pequeño restaurante/punto de venta.
 
 ## Descripción
 
-Proyecto Django sencillo que maneja categorías y productos, permite registrar clientes (usuarios) y guardar pedidos. Incluye plantillas básicas (`inicio.html`, `login.html`) y soporte para imágenes (carpeta `media/`).
+Proyecto Django sencillo que maneja categorías y productos, permite registrar clientes (usuarios) y guardar pedidos. 
 
 ## Requisitos
 
 - Python 3.8+
-- Dependencias listadas en `requirements.txt` (Django 5.2.4, Pillow, psycopg2, ...)
+- Dependencias listadas en `requirements.txt` 
 
 ## Instalación y ejecución (PowerShell)
 
@@ -31,6 +31,7 @@ pip install -r requirements.txt
 5. Migraciones y superusuario:
 
 ```powershell
+python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
 ```
@@ -41,18 +42,11 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Abre http://127.0.0.1:8000/ en tu navegador.
 
-## Estructura relevante
-
-- `manage.py` — comandos admin de Django.
-- `requirements.txt` — dependencias.
-- `restaurante_proyecto/` — settings, urls, wsgi/asgi.
-- `restaurante_app/` — modelos, vistas, templates y estáticos.
-- `media/` — archivos subidos (configurado como MEDIA_ROOT).
 
 ## Rutas principales
 
-- `/` → vista `users` (login/simple registro) — definida en `restaurante_app/urls.py`.
-- `/inicio/` → vista `inicio` que lista productos.
+- '/' inicio de la pagina con todos los productos
+- 'pedidos/' se registra el pedido y se redirige a un form para crear el pedido con un usuario relacionado
+- 'resenas/' deja tu sugerencia o queja de la web ( me llega un email al correo admin laliendra42@gmail.com)
 

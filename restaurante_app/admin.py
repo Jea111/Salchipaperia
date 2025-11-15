@@ -20,7 +20,7 @@ class User(admin.ModelAdmin):
 class Pedido(admin.ModelAdmin):
     
     fields = ['prodc','user_pedido','total','cantidad']
-    list_display = ['prodc','user_pedido','total','cantidad']
+    list_display = ['prodc','user_pedido','total','cantidad','fecha']
     list_filter = ['prodc','user_pedido','total','cantidad']
     search_fields = ['prodc','user_pedido','total','cantidad']
     
