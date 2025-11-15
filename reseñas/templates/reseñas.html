@@ -1,0 +1,53 @@
+{% extends "layout/base.html" %} {% load static %} {% block title %} salchi
+mandingas- quejas y sugerencias {% endblock %} {% block content %}
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm text-white p-4">
+        <h3 class="text-center text-primary mb-4">Enviar sugerencias</h3>
+
+        <form
+          action="https://formspree.io/f/mrbrpljj"
+          method="POST"
+          class="text-white"
+        >
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label class="form-label fw-bold text-primary">Correo</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              placeholder="example@gmail.com"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold text-primary"
+              >Deja tu sugerencia</label
+            >
+            <textarea
+              name="message"
+              rows="4"
+              class="form-control"
+              placeholder="Escribe tu sugerencia..."
+            ></textarea>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
