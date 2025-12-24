@@ -218,19 +218,21 @@
           >
             <div class="card menu-card w-100" data-producto-id="{{ p.id }}">
               <div class="position-relative">
-                {% if p.imagen %}
-                <img
-                  src="{{ p.imagen.url }}"
-                  class="card-img-top"
-                  alt="{{ p.nombre }}"
-                />
-                {% else %}
-                <img
-                  src="{% static 'img/no-image.jpg' %}"
-                  class="card-img-top"
-                  alt="Sin imagen"
-                />
-                {% endif %}
+                <div class="image-wrapper">
+                  {% if p.imagen %}
+                  <img
+                    src="{{ p.imagen.url }}"
+                    class="card-img-top"
+                    alt="{{ p.nombre }}"
+                  />
+                  {% else %}
+                  <img
+                    src="{% static 'img/no-image.jpg' %}"
+                    class="card-img-top"
+                    alt="Sin imagen"
+                  />
+                  {% endif %}
+                </div>
                 <span class="price-tag badge rounded-pill"
                   >${{ p.precio }}</span
                 >
@@ -266,8 +268,8 @@
                   <span class="bg-danger text-white"
                     >No disponible en el momento</span
                   >
+                  {% endif %}
                 </form>
-                {% endif %}
               </div>
             </div>
           </div>

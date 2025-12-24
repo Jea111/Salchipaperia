@@ -78,10 +78,29 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-.menu-card img {
-  height: 200px;
-  object-fit: cover;
+.menu-card .image-wrapper {
   width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+}
+
+.menu-card .image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  max-width: 100%;
+}
+
+@media (max-width: 576px) {
+  .menu-card .image-wrapper {
+    aspect-ratio: 16/9;
+  }
 }
 
 .price-tag {
