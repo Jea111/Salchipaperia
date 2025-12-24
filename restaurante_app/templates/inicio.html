@@ -1,3 +1,4 @@
+<!-- {% load static %} -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
@@ -63,6 +64,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#contact">Contacto</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_cart' %}">Carrito</a>
             </li>
             <li class="nav-item">
               <a class="nav-link btn btn-custom ms-2" href="#order"
@@ -236,23 +240,34 @@
                   {{ p.disponible|yesno:"Disponible,No disponible" }}
                 </span>
               </div>
+
               <div class="card-body">
                 <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
                 <p class="card-description">{{ p.descripcion }}</p>
                 <p class="card-price visually-hidden">{{ p.precio }}</p>
-                <button
-                  class="btn add-to-cart-btn"
-                  onclick="enviarPedido(event)"
-                  {%
-                  if
-                  not
-                  p.disponible
-                  %}disabled{%
-                  endif
-                  %}
-                >
-                  <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
-                </button>
+                <form method="post" action="{% url 'add_to_cart' p.id %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="quantity" value="1" />
+                  {% if p.disponible %}
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    {%
+                    if
+                    not
+                    p.disponible
+                    %}disabled{%
+                    endif
+                    %}
+                  >
+                    <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
+                  </button>
+                  {% else %}
+                  <span class="bg-danger text-white"
+                    >No disponible en el momento</span
+                  >
+                </form>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -409,9 +424,16 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <div class="social-icons">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://www.facebook.com/jehan.cortes.7/" target="_blank"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
               <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-whatsapp"></i></a>
+              <a
+                href="https://wa.me/573147681762?text=Hola%20tengo%20que%20hacer%20una%20queja"
+                target="_blank"
+              >
+                <i class="fab fa-whatsapp"></i
+              ></a>
             </div>
           </div>
         </div>
@@ -433,33 +455,57 @@
         class="d-flex justify-content-between align-items-center p-3 border-bottom"
       >
         <h5 class="mb-0">🛒 Tu Carrito</h5>
-        <button
-          class="btn btn-sm btn-outline-secondary"
-          onclick="toggleCarrito()"
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'view_cart' %}"
+          >Ver carrito</a
         >
-          <i class="fas fa-times"></i>
-        </button>
       </div>
-      <div
-        id="carrito-lista"
-        class="p-3"
-        style="flex-grow: 1; overflow-y: auto"
-      ></div>
+      <div class="p-3" style="flex-grow: 1; overflow-y: auto">
+        {% if cart_items and cart_items|length > 0 %}
+        <ul class="list-unstyled mb-0">
+          {% for it in cart_items %}
+          <li class="d-flex justify-content-between mb-2 align-items-center">
+            <div>
+              <strong>{{ it.producto.nombre }}</strong>
+              <div class="small text-muted">Cant: {{ it.cantidad }}</div>
+            </div>
+            <div class="text-end">
+              <div>${{ it.subtotal }}</div>
+              <form
+                method="post"
+                action="{% url 'remove_from_cart' it.producto.id %}"
+                class="mt-1"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                  Eliminar
+                </button>
+              </form>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="text-muted">Tu carrito está vacío</div>
+        {% endif %}
+      </div>
       <div class="p-3 border-top bg-light">
-        <button class="btn btn-success w-100 mb-2" onclick="confirmarPedido()">
-          <i class="fas fa-check me-2"></i>Confirmar Pedido
-        </button>
+        <a href="{% url 'view_cart' %}" class="btn btn-success w-100 mb-2">
+          <i class="fas fa-check me-2"></i>Ir al Carrito / Confirmar
+        </a>
       </div>
     </div>
 
-    <button
+    <a
       id="toggle-carrito-btn"
       class="btn btn-warning carrito-btn shadow"
-      onclick="toggleCarrito()"
+      href="{% url 'view_cart' %}"
     >
-      <span class="badge rounded-pill bg-danger">🛒</span>
-    </button>
+      <span class="badge rounded-pill bg-danger"
+        >🛒{% if cart_count and cart_count > 0 %} {{ cart_count }}
+      </span>
+      {% endif%}
+    </a>
 
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/script.js'  %}"></script>
   </body>
 </html>

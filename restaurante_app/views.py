@@ -1,141 +1,180 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseBadRequest
 from django.db import transaction
+from decimal import Decimal
+import urllib.parse, logging
+
 from .models import Usuarios, Productos, Pedidos
-from decimal import Decimal, InvalidOperation
-import json
-import logging
-import urllib.parse
-from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+
+def _get_cart_from_session(request):
+    return request.session.get('cart', {})
+
+
+def _save_cart_to_session(request, cart):
+    request.session['cart'] = cart
+    request.session.modified = True
+
+
 def inicio(request):
-    prods = Productos.objects.all()
+    productos = Productos.objects.all()
+    cart = _get_cart_from_session(request)
+
+    cart_items = []
+    cart_count = 0
+    cart_total = Decimal('0.00')
+
+    for pid, qty in cart.items():
+        try:
+            producto = Productos.objects.get(id=int(pid))
+            cantidad = int(qty)
+            subtotal = producto.precio * cantidad
+
+            cart_items.append({
+                'producto': producto,
+                'cantidad': cantidad,
+                'subtotal': subtotal
+            })
+
+            cart_count += cantidad
+            cart_total += subtotal
+        except Productos.DoesNotExist:
+            pass
+
     return render(request, 'inicio.html', {
-        'prod': prods
+        'prod': productos,
+        'cart_items': cart_items,
+        'cart_count': cart_count,
+        'cart_total': cart_total,
     })
 
 
-def format_whatsapp_message(usuario, productos_pedido, total_pedido):
-    """Formatea el mensaje de WhatsApp con los detalles del pedido."""
-    mensaje = f" *NUEVO PEDIDO*\n\n"
-    mensaje += f"*Cliente:* {usuario.nombre}\n"
-    mensaje += f"*Teléfono:* {usuario.telefono}\n"
-    mensaje += f"*Dirección:* {usuario.direccion}\n"
-    mensaje += f"*Método de Pago:* {usuario.metodo_pago}\n\n"
-    
-    mensaje += "*Productos:*\n"
-    for pedido in productos_pedido:
-        mensaje += f"- {pedido.prodc.nombre} × {pedido.cantidad} = ${pedido.total}\n"
-    
-    mensaje += f"\n*TOTAL: ${total_pedido}*"
-    return mensaje
+def add_to_cart(request, product_id):
+    if request.method != 'POST':
+        return redirect('inicio')
 
-def pedidosUser(request):
-    if request.method == 'POST':
+    get_object_or_404(Productos, id=product_id)
+    cart = _get_cart_from_session(request)
+
+    cart[str(product_id)] = cart.get(str(product_id), 0) + 1
+    _save_cart_to_session(request, cart)
+
+    return redirect(request.META.get('HTTP_REFERER', 'inicio'))
+
+
+def remove_from_cart(request, product_id):
+    if request.method != 'POST':
+        return redirect('view_cart')
+
+    cart = _get_cart_from_session(request)
+    cart.pop(str(product_id), None)
+    _save_cart_to_session(request, cart)
+
+    return redirect('view_cart')
+
+
+def view_cart(request):
+    cart = _get_cart_from_session(request)
+    items = []
+    total = Decimal('0.00')
+
+    for pid, qty in cart.items():
         try:
-            # Obtener datos del formulario
-            nomb = request.POST.get('nombre', '').strip()
-            direc = request.POST.get('direccion', '').strip()
-            tel = request.POST.get('telefono', '').strip()
-            met_p = request.POST.get('metodo_pago', '').strip()
-            carrito = request.POST.get('carrito', '').strip()
+            producto = Productos.objects.get(id=int(pid))
+            cantidad = int(qty)
+            subtotal = producto.precio * cantidad
 
-            # Validar campos requeridos
-            campos_requeridos = {
-                'Nombre': nomb,
-                'Dirección': direc,
-                'Teléfono': tel,
-                'Método de pago': met_p,
-                'Carrito': carrito
-            }
-
-            campos_faltantes = [campo for campo, valor in campos_requeridos.items() if not valor]
-            
-            if campos_faltantes:
-                return HttpResponseBadRequest(
-                    f'Los siguientes campos son requeridos: {", ".join(campos_faltantes)}'
-                )
-
-            # Validar formato del carrito
-            try:
-                productos = json.loads(carrito)
-                if not productos:
-                    return HttpResponseBadRequest('El carrito está vacío')
-                    
-                # Validar estructura de cada item del carrito
-                for item in productos:
-                    if not isinstance(item, dict):
-                        return HttpResponseBadRequest('Formato de item inválido')
-                    if 'id' not in item:
-                        return HttpResponseBadRequest('ID de producto requerido')
-                    if 'cantidad' not in item:
-                        return HttpResponseBadRequest('Cantidad requerida')
-                
-                # Inicializar lista para almacenar los pedidos
-                pedidos_lista = []
-                        
-            except json.JSONDecodeError:
-                return HttpResponseBadRequest('Formato de carrito inválido')
-
-            with transaction.atomic():
-                usuario = Usuarios.objects.create(
-                    nombre=nomb, direccion=direc, telefono=tel, metodo_pago=met_p
-                )
-
-                for item in productos:
-                    try:
-                        # Usar id del producto 
-                        prod_id = item.get('id')
-                        if not prod_id:
-                            raise ValueError('ID de producto requerido')
-                            
-                        produc_pedido = Productos.objects.get(id=prod_id)
-                        cantidad = int(item.get('cantidad', 1))
-                        if cantidad < 1:
-                            raise ValueError('Cantidad debe ser positiva')
-                            
-                        # Usar precio del producto en BD
-                        total_item = produc_pedido.precio * cantidad
-
-                        pedido = Pedidos.objects.create(
-                            user_pedido=usuario,
-                            prodc=produc_pedido,
-                            cantidad=cantidad,
-                            total=total_item
-                        )
-                        pedidos_lista.append(pedido)
-                    except Productos.DoesNotExist:
-                        raise ValueError(f'Producto {prod_id} no existe')
-                    except (TypeError, ValueError) as e:
-                        raise ValueError(f'Error en item del carrito: {str(e)}')
-
-            # Calcular total del pedido
-            total_pedido = sum(pedido.total for pedido in pedidos_lista)
-            
-            # Formatear y enviar mensaje de WhatsApp
-            mensaje = format_whatsapp_message(usuario, pedidos_lista, total_pedido)
-            whatsapp_numero = "3147681762"
-            whatsapp_url = f"https://wa.me/{whatsapp_numero}?text={urllib.parse.quote(mensaje)}"
-                        
-            return render(request, 'confirmacion.html', {
-                'usuario': usuario,
-                'pedidos': pedidos_lista,
-                'total': total_pedido,
-                'whatsapp_url': whatsapp_url
+            items.append({
+                'producto': producto,
+                'cantidad': cantidad,
+                'subtotal': subtotal
             })
-                        
-        except json.JSONDecodeError:
-            logger.error('Error decodificando carrito JSON')
-            return HttpResponseBadRequest('Formato de carrito inválido')
-        except ValueError as e:
-            logger.error(f'Error validando pedido: {str(e)}')
-            return HttpResponseBadRequest(str(e))
-        except Exception as e:
-            logger.exception('Error inesperado procesando pedido')
-            return HttpResponseBadRequest('Error procesando pedido')
 
-        return render(request, 'confirmacion.html', {'usuario': usuario})
+            total += subtotal
+        except Productos.DoesNotExist:
+            pass
 
-    return render(request, 'login.html')
+    return render(request, 'carrito.html', {
+        'items': items,
+        'total': total,
+    })
+
+
+def confirm_cart(request):
+    cart = _get_cart_from_session(request)
+
+    if not cart:
+        return HttpResponseBadRequest('El carrito está vacío')
+
+    if request.method != 'POST':
+        return redirect('view_cart')
+
+    nomb = request.POST.get('nombre', '').strip()
+    direc = request.POST.get('direccion', '').strip()
+    tel = request.POST.get('telefono', '').strip()
+    met_p = request.POST.get('metodo_pago', '').strip()
+
+    if not all([nomb, direc, tel, met_p]):
+        return HttpResponseBadRequest('Todos los campos son obligatorios')
+
+    with transaction.atomic():
+
+        usuario = Usuarios.objects.filter(telefono=tel).first()
+
+        if not usuario:
+            usuario = Usuarios.objects.create(
+                nombre=nomb,
+                direccion=direc,
+                telefono=tel,
+                metodo_pago=met_p
+            )
+
+        pedidos_lista = []
+
+        for pid, qty in cart.items():
+            producto = Productos.objects.get(id=int(pid))
+            cantidad = int(qty)
+            total_item = producto.precio * cantidad
+
+            pedido = Pedidos.objects.create(
+                user_pedido=usuario,
+                prodc=producto,
+                cantidad=cantidad,
+                total=total_item,
+                direccion_envio=direc,
+                metodo_pago=met_p
+            )
+
+            pedidos_lista.append(pedido)
+
+    request.session['cart'] = {}
+    request.session.modified = True
+
+    total_pedido = sum(p.total for p in pedidos_lista)
+
+    mensaje = (
+        f"*NUEVO PEDIDO*\n\n"
+        f"*Cliente:* {usuario.nombre}\n"
+        f"*Teléfono:* {usuario.telefono}\n"
+        f"*Dirección:* {direc}\n"
+        f"*Método de pago:* {met_p}\n\n"
+    )
+
+    for p in pedidos_lista:
+        mensaje += f"- {p.prodc.nombre} × {p.cantidad} = ${p.total}\n"
+
+    mensaje += f"\n*TOTAL: ${total_pedido}*"
+
+    whatsapp_url = (
+        "https://wa.me/573147681762?text="
+        + urllib.parse.quote(mensaje)
+    )
+
+    return render(request, 'confirmacion.html', {
+        'usuario': usuario,
+        'pedidos': pedidos_lista,
+        'total': total_pedido,
+        'whatsapp_url': whatsapp_url
+    })

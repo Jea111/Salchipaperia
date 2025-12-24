@@ -19,10 +19,10 @@ class User(admin.ModelAdmin):
     
 class Pedido(admin.ModelAdmin):
     
-    fields = ['prodc','user_pedido','total','cantidad']
-    list_display = ['prodc','user_pedido','total','cantidad','fecha']
-    list_filter = ['prodc','user_pedido','total','cantidad']
-    search_fields = ['prodc','user_pedido','total','cantidad']
+    fields = ['prodc','user_pedido','total','direccion_envio','metodo_pago','cantidad']
+    list_display = ['prodc','user_pedido','total','direccion_envio','metodo_pago','cantidad','fecha']
+    list_filter = ['prodc','user_pedido','total','direccion_envio','metodo_pago','cantidad']
+    search_fields = ['prodc','user_pedido','total','direccion_envio','metodo_pago','cantidad']
     
     
 admin.site.register(Productos,Produ)

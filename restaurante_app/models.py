@@ -17,7 +17,7 @@ class Productos(models.Model):
 class Usuarios(models.Model):
     nombre = models.CharField(max_length=200)
     direccion = models.CharField(max_length=200)
-    telefono = models.CharField(max_length=50)
+    telefono = models.CharField(max_length=50,unique=True)
     metodo_pago = models.CharField(max_length=200)
     fecha = models.DateTimeField(auto_now_add=True)
 
@@ -30,6 +30,10 @@ class Pedidos(models.Model):
     prodc = models.ForeignKey(Productos, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
     total = models.DecimalField(decimal_places=2, max_digits=10)
+    
+    direccion_envio = models.CharField(max_length=200)
+    metodo_pago = models.CharField(max_length=200)
+    
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
