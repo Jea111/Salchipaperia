@@ -33,6 +33,7 @@ class Pedidos(models.Model):
     
     direccion_envio = models.CharField(max_length=200)
     metodo_pago = models.CharField(max_length=200)
+    estado_pedido = models.BooleanField(default=False,blank=True,null=True)
     
     fecha = models.DateTimeField(auto_now_add=True)
 

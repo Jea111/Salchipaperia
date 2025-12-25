@@ -100,8 +100,6 @@ def view_cart(request):
         'items': items,
         'total': total,
     })
-
-
 def confirm_cart(request):
     cart = _get_cart_from_session(request)
 
@@ -138,16 +136,27 @@ def confirm_cart(request):
             cantidad = int(qty)
             total_item = producto.precio * cantidad
 
-            pedido = Pedidos.objects.create(
+            pedido_existente = Pedidos.objects.filter(
                 user_pedido=usuario,
                 prodc=producto,
-                cantidad=cantidad,
-                total=total_item,
-                direccion_envio=direc,
-                metodo_pago=met_p
-            )
+                estado_pedido=False
+            ).first()
 
-            pedidos_lista.append(pedido)
+            if pedido_existente:
+                pedido_existente.cantidad += cantidad
+                pedido_existente.total += total_item
+                pedido_existente.save()
+                pedidos_lista.append(pedido_existente)
+            else:
+                pedido = Pedidos.objects.create(
+                    user_pedido=usuario,
+                    prodc=producto,
+                    cantidad=cantidad,
+                    total=total_item,
+                    direccion_envio=direc,
+                    metodo_pago=met_p
+                )
+                pedidos_lista.append(pedido)
 
     request.session['cart'] = {}
     request.session.modified = True
@@ -155,17 +164,12 @@ def confirm_cart(request):
     total_pedido = sum(p.total for p in pedidos_lista)
 
     mensaje = (
-        f"*NUEVO PEDIDO*\n\n"
+        f"*NO MODIFICAR ESTE MENSAJE*\n\n"
         f"*Cliente:* {usuario.nombre}\n"
-        f"*Teléfono:* {usuario.telefono}\n"
-        f"*Dirección:* {direc}\n"
-        f"*Método de pago:* {met_p}\n\n"
+        f"Pedido confirmado\n"
+        f"Tu pedido llegará en 25 minutos\n"
+        f"Gracias por tu compra\n"
     )
-
-    for p in pedidos_lista:
-        mensaje += f"- {p.prodc.nombre} × {p.cantidad} = ${p.total}\n"
-
-    mensaje += f"\n*TOTAL: ${total_pedido}*"
 
     whatsapp_url = (
         "https://wa.me/573147681762?text="
