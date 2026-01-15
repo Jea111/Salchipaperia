@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest,JsonResponse
 from django.db import transaction
+from django.contrib import messages
+
 from decimal import Decimal
 import urllib.parse, logging
 
@@ -51,17 +53,38 @@ def inicio(request):
     })
 
 
+# def add_to_cart(request, product_id):
+#     if request.method != 'POST':
+#         return redirect('inicio')
+
+#     get_object_or_404(Productos, id=product_id)
+#     cart = _get_cart_from_session(request)
+
+#     cart[str(product_id)] = cart.get(str(product_id), 0) + 1
+#     _save_cart_to_session(request, cart)
+
+#     return redirect(request.META.get('HTTP_REFERER', 'inicio'))
+
+
+
+
 def add_to_cart(request, product_id):
-    if request.method != 'POST':
-        return redirect('inicio')
+    if request.method == 'POST':
+        producto = get_object_or_404(Productos, id=product_id)
 
-    get_object_or_404(Productos, id=product_id)
-    cart = _get_cart_from_session(request)
+        cart = _get_cart_from_session(request)
+        cart[str(product_id)] = cart.get(str(product_id), 0) + 1
+        _save_cart_to_session(request, cart)
 
-    cart[str(product_id)] = cart.get(str(product_id), 0) + 1
-    _save_cart_to_session(request, cart)
+        messages.success(request, f'🛒 {producto.nombre} agregado al carrito')
+        
+        return JsonResponse({
+            "success": True,
+            "message": f"🛒 {producto.nombre} agregado al carrito"
+        })
+        # return redirect(request.META.get('HTTP_REFERER', 'inicio'))
 
-    return redirect(request.META.get('HTTP_REFERER', 'inicio'))
+
 
 
 def remove_from_cart(request, product_id):
@@ -182,3 +205,24 @@ def confirm_cart(request):
         'total': total_pedido,
         'whatsapp_url': whatsapp_url
     })
+
+
+
+def incrementar(request,id):
+    cart = request.session.get('cart',{})
+    if str(id) in cart:
+        cart[str(id)] +=1
+        request.session['cart'] = cart
+        return redirect('view_cart')
+    
+def decrementar(request,id):
+    cart = request.session.get('cart',{})
+    if str(id) in cart:
+        if cart[str(id)] > 1:
+            cart[str(id)] -=1
+        else:
+            del cart[str(id)]
+        request.session['cart'] = cart
+    return redirect('view_cart')
+    
+        

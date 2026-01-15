@@ -198,6 +198,14 @@
       </div>
     </section>
 
+    <!-- mensaje de alerta cada que se agrega produ al carrito  -->
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %} {% endif %}
+
     <section id="menu" class="section-padding">
       <div class="container">
         <div class="row">
@@ -247,7 +255,11 @@
                 <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
                 <p class="card-description">{{ p.descripcion }}</p>
                 <p class="card-price visually-hidden">{{ p.precio }}</p>
-                <form method="post" action="{% url 'add_to_cart' p.id %}">
+                <form
+                  method="post"
+                  action="{% url 'add_to_cart' p.id %}"
+                  class="add-to-cart-form"
+                >
                   {% csrf_token %}
                   <input type="hidden" name="quantity" value="1" />
                   {% if p.disponible %}
@@ -509,5 +521,48 @@
     </a>
 
     <script src="{% static 'js/script.js'  %}"></script>
+    <script>
+      document.querySelectorAll(".add-to-cart-form").forEach((form) => {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          fetch(this.action, {
+            method: "POST",
+            body: new FormData(this),
+            headers: {
+              "X-Requested-With": "XMLHttpRequest",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                showToast(data.message);
+                updateCartBadge(data.cart_count);
+              }
+            });
+        });
+      });
+
+      function showToast(msg) {
+        Toastify({
+          text: msg,
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "#28a745",
+        }).showToast();
+      }
+
+      function updateCartBadge(count) {
+        const badge = document.querySelector("#toggle-carrito-btn .badge");
+        if (badge) badge.innerText = "🛒 " + count;
+      }
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
   </body>
 </html>

@@ -9,4 +9,6 @@ urlpatterns = [
     path('confirmar/', views.confirm_cart, name='confirm_cart'),
     path('panel_cocina/', panel_cocina_pedidos, name='panel_cocina'),
     path('editar_pedido_cocina/<int:id>/', editar_pedido_cocina, name='editar_pedido_cocina'),
+    path('incrementar/<int:id>/' ,views.incrementar, name='incrementar'),
+    path('decrementar/<int:id>/' ,views.decrementar, name='decrementar'),
 ]
