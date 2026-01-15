@@ -1,0 +1,49 @@
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+<div class="container my-4">
+  <h2 class="text-center mb-4">Pedidos Pendientes - Cocina</h2>
+
+  {% regroup pedidos_domicilios by user_pedido as pedidos_por_usuario %}
+
+  <div class="row g-4">
+    {% for grupo in pedidos_por_usuario %}
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-dark text-white">
+          <strong>Cliente:</strong> {{ grupo.grouper.nombre }} <br />
+        </div>
+
+        <div class="card-body">
+          {% for p in grupo.list %}
+          <div class="border-bottom pb-2 mb-3">
+            <h6 class="mb-1">{{ p.prodc.nombre }}</h6>
+            <p class="mb-1">Cantidad: <strong>{{ p.cantidad }}</strong></p>
+            <p class="mb-1 text-muted">🕒 {{ p.fecha|date:"H:i" }}</p>
+
+            <form method="post" action="{% url 'editar_pedido_cocina' p.id %}">
+              {% csrf_token %}
+              <button class="btn btn-success btn-sm w-100">
+                Marcar como listo
+              </button>
+            </form>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="card-footer text-center small text-muted">
+          Método de pago: {{ grupo.list.0.metodo_pago }}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+      <div class="alert alert-success text-center">
+        No hay pedidos pendientes
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
