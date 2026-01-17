@@ -47,6 +47,5 @@ python manage.py runserver
 ## Rutas principales
 
 - '/' inicio de la pagina con todos los productos
-- 'pedidos/' se registra el pedido y se redirige a un form para crear el pedido con un usuario relacionado
-- 'resenas/' deja tu sugerencia o queja de la web ( me llega un email al correo admin laliendra42@gmail.com)
+
 
