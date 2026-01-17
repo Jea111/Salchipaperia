@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'restaurante_app',
-    'reseñas',
     'panel_cocina',
 ]
 
