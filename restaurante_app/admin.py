@@ -4,10 +4,10 @@ from . models import Productos,Usuarios,Pedidos
 # Register your models here.
 class Produ(admin.ModelAdmin):
     
-    fields = ['nombre','descripcion','precio','imagen','precio_descuento','disponible']
-    list_display = ['nombre','descripcion','precio','imagen','precio_descuento','disponible','fecha_creado']
-    list_filter = ['nombre','descripcion','precio','precio_descuento','disponible','fecha_creado']
-    search_fields = ['nombre','descripcion','precio','precio_descuento','disponible','fecha_creado']
+    fields = ['nombre','descripcion','precio','imagen','categoria','precio_descuento','disponible']
+    list_display = ['nombre','descripcion','precio','imagen','categoria','precio_descuento','disponible','fecha_creado']
+    list_filter = ['nombre','descripcion','precio','categoria','precio_descuento','disponible','fecha_creado']
+    search_fields = ['nombre','descripcion','precio','categoria','precio_descuento','disponible','fecha_creado']
     
     
 class User(admin.ModelAdmin):

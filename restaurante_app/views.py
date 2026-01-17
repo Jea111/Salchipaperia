@@ -20,10 +20,14 @@ def _get_cart_from_session(request):
 def _save_cart_to_session(request, cart):
     request.session['cart'] = cart
     request.session.modified = True
-
-
 def inicio(request):
-    productos = Productos.objects.all()
+    categoria = request.GET.get('categoria')
+
+    if categoria:
+        productos = Productos.objects.filter(categoria=categoria)
+    else:
+        productos = Productos.objects.all()
+
     cart = _get_cart_from_session(request)
 
     cart_items = []
@@ -211,3 +215,15 @@ def decrementar(request, id):
             del cart[str(id)]
         request.session['cart'] = cart
     return redirect('view_cart')
+
+def menu_filter(request):
+    categorie = request.GET.get('categoria')
+    if categorie:
+        products = Productos.objects.filter(categoria=categorie)
+    else:
+        products = Productos.objects.all()
+
+    return render(request, 'inicio.html', {
+        'categorie': products
+    })
+  

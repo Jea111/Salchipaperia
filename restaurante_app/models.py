@@ -7,6 +7,16 @@ class Productos(models.Model):
     precio = models.DecimalField(decimal_places=2, max_digits=10)
     precio_descuento = models.DecimalField(decimal_places=2, max_digits=10)
     imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
+    categoria = models.CharField(
+        max_length=50,
+        choices=[
+            ('comida_rapida', 'Comida rápida'),
+            ('bebida', 'Bebida'),
+            ('combo', 'Combo'),
+            ('postre', 'Postre'),
+            ('entrantes', 'Entrantes'),
+        ]
+    )
     disponible = models.BooleanField(default=True)
     fecha_creado = models.DateTimeField(auto_now_add=True)
 

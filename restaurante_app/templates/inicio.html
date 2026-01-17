@@ -47,7 +47,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
+          <ul class="navbar-nav ms-auto text-center text-lg-start gap-2">
             <li class="nav-item">
               <a class="nav-link" href="#home">Inicio</a>
             </li>
@@ -65,14 +65,9 @@
             <li class="nav-item">
               <a class="nav-link" href="#contact">Contacto</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="{% url 'view_cart' %}">Carrito</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link btn btn-custom ms-2" href="#order"
-                >Pedir Ahora</a
-              >
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -207,6 +202,72 @@
               Disfruta de nuestras especialidades preparadas con ingredientes
               frescos y amor
             </p>
+            <div class="col-lg-8 mx-auto text-center mb-5 g-3">
+              <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                <a
+                  href="{% url 'inicio' %}?categoria=entrantes#menu"
+                  class="text-decoration-none"
+                >
+                  <button
+                    class="btn btn-outline-warning rounded-pill px-4 fw-semibold"
+                  >
+                    🍟 Entrantes
+                  </button>
+                </a>
+
+                <a
+                  href="{% url 'inicio' %}?categoria=comida_rapida#menu"
+                  class="text-decoration-none"
+                >
+                  <button
+                    class="btn btn-outline-warning rounded-pill px-4 fw-semibold"
+                  >
+                    🍔 Comidas rápidas
+                  </button>
+                </a>
+
+                <a
+                  href="{% url 'inicio' %}?categoria=combo#menu"
+                  class="text-decoration-none"
+                >
+                  <button
+                    class="btn btn-outline-warning rounded-pill px-4 fw-semibold"
+                  >
+                    🧃 Combos
+                  </button>
+                </a>
+
+                <a
+                  href="{% url 'inicio' %}?categoria=postre#menu"
+                  class="text-decoration-none"
+                >
+                  <button
+                    class="btn btn-outline-warning rounded-pill px-4 fw-semibold"
+                  >
+                    🍰 Postres
+                  </button>
+                </a>
+
+                <a
+                  href="{% url 'inicio' %}?categoria=bebida#menu"
+                  class="text-decoration-none"
+                >
+                  <button
+                    class="btn btn-outline-warning rounded-pill px-4 fw-semibold"
+                  >
+                    🥤 Bebidas
+                  </button>
+                </a>
+
+                <a href="{% url 'inicio' %}#menu" class="text-decoration-none">
+                  <button
+                    class="btn btn-outline-warning rounded-pill px-4 fw-semibold"
+                  >
+                    🍽️ Todos
+                  </button>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 

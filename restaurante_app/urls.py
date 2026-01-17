@@ -12,4 +12,5 @@ urlpatterns = [
     
     path('panel_cocina/', panel_cocina_pedidos, name='panel_cocina'),
     path('editar_pedido_cocina/<int:id>/', editar_pedido_cocina, name='editar_pedido_cocina'),
+    
 ]
